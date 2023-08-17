@@ -57,5 +57,78 @@ public class Main {
                         .map(Map.Entry::getValue)
                         .toList().get(0)
         );
+
+        //Print min salary
+        System.out.println("\nMin salary is : "+
+                employeeList.stream()
+                        .map(Employee::getSalary)
+                        .sorted()
+                        .limit(1)
+                        .toList().get(0)
+        );
+
+        //Print employees with min salary
+        System.out.println("\nEmployees with Min salary are : "+
+                employeeList.stream()
+                        .collect(Collectors.groupingBy(Employee::getSalary))
+                        .entrySet()
+                        .stream()
+                        .sorted(Map.Entry.comparingByKey())
+                        .limit(1)
+                        .map(Map.Entry::getValue)
+                        .toList()
+        );
+
+        //List of people working on more than 2 projects
+        System.out.println("People working on more than 2 projects : \n");
+        employeeList.stream()
+                .filter(employee -> employee.getProjects().size() > 2)
+                .toList().forEach(System.out::println);
+
+        //Count of total laptops assigned to employees
+        System.out.println(
+                employeeList.stream()
+                        .mapToInt(Employee::getTotalLaptopsAssigned)
+                        .sum()
+        );
+
+        //Count of all projects with Robert Downey Jr as PM.
+        System.out.println("Printing count of all projects with Robert Downey Jr as PM");
+        System.out.println(
+                employeeList.stream()
+                        .map(Employee::getProjects)
+                        .flatMap(Collection::stream)
+                        .distinct()
+                        .filter(project -> project.getProjectManager().equals("Robert Downey Jr"))
+                        .count()
+        );
+        //Count of all projects with Robert Downey Jr as PM.
+        System.out.println("Printing list of all projects with Robert Downey Jr as PM");
+
+                employeeList.stream()
+                        .map(Employee::getProjects)
+                        .flatMap(Collection::stream)
+                        .distinct()
+                        .filter(project -> project.getProjectManager().equals("Robert Downey Jr"))
+                        .map(project -> project.getName()+"---"+project.getTeam()+"---"+project.getProjectManager())
+                        .toList().forEach(System.out::println);
+
+        //List of all people working with Robert Downey Jr.
+
+        //Create a map of joining year to list of people who joined in this year.
+        System.out.println("\nMap of people by joining year : ");
+                employeeList.stream()
+                        .collect(Collectors.groupingBy(employee -> employee.getId().substring(0, 4)))
+                        .forEach((s, employee) -> System.out.println(s +" : "+employee));
+
+        //Create a map based on this data, the key should be year of joining and value should be the count of people joined in that particular year.
+
+        System.out.println("\nMap of count of people by joining year : ");
+        employeeList.stream()
+                .collect(Collectors.groupingBy(employee -> employee.getId().substring(0, 4)))
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().size()))
+                .forEach((s, count) -> System.out.println(s +" : "+count));
     }
 }
