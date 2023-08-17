@@ -2,12 +2,10 @@ package org.example;
 
 import org.example.demo.Employee;
 import org.example.demo.EmployeeFactory;
+import org.example.demo.Project;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -18,6 +16,15 @@ public class Main {
         employeeList = employeeFactory.getAllEmployee();
 
         //Stream operations below:
+        //List out all distinct projects in non-ascending order.
+        List<String> projects = employeeList.stream()
+                .map(Employee::getProjects)
+                .flatMap(Collection::stream)
+                .map(Project::getName)
+                .distinct()
+                .sorted(Collections.reverseOrder())
+                .toList();
 
+        projects.forEach(System.out::println);
     }
 }
