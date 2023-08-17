@@ -44,5 +44,18 @@ public class Main {
                 .sorted(Comparator.comparing(Employee::getSalary))
                 .toList().forEach(System.out::println);
 
+        //Print employees with 3rd highest salary
+        System.out.println("Print employees with 3rd highest salary \n ");
+        System.out.println(
+                employeeList.stream()
+                        .sorted(Comparator.comparing(Employee::getSalary).reversed())
+                        .skip(2)
+                        .collect(Collectors.groupingBy(Employee::getSalary))
+                        .entrySet()
+                        .stream()
+                        .sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
+                        .map(Map.Entry::getValue)
+                        .toList().get(0)
+        );
     }
 }
