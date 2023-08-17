@@ -37,5 +37,12 @@ public class Main {
         employeeList.stream()
                     .filter(employee -> employee.getId().startsWith("2023"))
                     .toList().forEach(System.out::println);
+        System.out.println("============================================ Printing the Sorted list of employees ====================================================================================");
+        //Sort employees based on firstName, for same firstName sort by salary.
+        employeeList.stream()
+                .sorted(Comparator.comparing(Employee::getFirstName))
+                .sorted(Comparator.comparing(Employee::getSalary))
+                .toList().forEach(System.out::println);
+
     }
 }
