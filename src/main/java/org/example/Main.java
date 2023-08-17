@@ -25,6 +25,17 @@ public class Main {
                 .sorted(Collections.reverseOrder())
                 .toList();
 
-        projects.forEach(System.out::println);
+        //projects.forEach(System.out::println);
+
+        //Print full name of any Employee whose first name starts with letter A.
+        employeeList.stream()
+                .filter( employee -> employee.getFirstName().startsWith("A"))
+                .map(employee -> employee.getFirstName() + " " + employee.getLastName())
+                .toList().forEach(System.out::println);
+
+        //List all employees who joined in year 2023
+        employeeList.stream()
+                    .filter(employee -> employee.getId().startsWith("2023"))
+                    .toList().forEach(System.out::println);
     }
 }
