@@ -17,27 +17,29 @@ public class Main {
 
         //Stream operations below:
         //List out all distinct projects in non-ascending order.
-        List<String> projects = employeeList.stream()
+        System.out.println("\nPrint out list of all distinct projects");
+        employeeList.stream()
                 .map(Employee::getProjects)
                 .flatMap(Collection::stream)
                 .map(Project::getName)
                 .distinct()
                 .sorted(Collections.reverseOrder())
-                .toList();
-
-        //projects.forEach(System.out::println);
+                .toList().forEach(System.out::println);
 
         //Print full name of any Employee whose first name starts with letter A.
+        System.out.println("\nPrint full name of any Employee whose first name starts with letter A.");
         employeeList.stream()
                 .filter( employee -> employee.getFirstName().startsWith("A"))
                 .map(employee -> employee.getFirstName() + " " + employee.getLastName())
                 .toList().forEach(System.out::println);
 
         //List all employees who joined in year 2023
+        System.out.println("\nList employees who joined in year 2023");
         employeeList.stream()
                     .filter(employee -> employee.getId().startsWith("2023"))
                     .toList().forEach(System.out::println);
-        System.out.println("============================================ Printing the Sorted list of employees ====================================================================================");
+
+        System.out.println("\n============================================ Printing the Sorted list of employees ====================================================================================");
         //Sort employees based on firstName, for same firstName sort by salary.
         employeeList.stream()
                 .sorted(Comparator.comparing(Employee::getFirstName))
@@ -114,6 +116,17 @@ public class Main {
                         .toList().forEach(System.out::println);
 
         //List of all people working with Robert Downey Jr.
+        System.out.println("\nPrinting list of employees working with Robert Downey Jr");
+
+        employeeList.stream().
+                collect(
+                        Collectors.groupingBy(employee -> employee.getProjects().stream().map(Project::getProjectManager).toList())
+                ).entrySet()
+                .stream()
+                        .filter(entry -> entry.getKey().contains("Robert Downey Jr"))
+                                .toList().forEach(entry -> System.out.println("Employee working with Robert Downey Jr" +" : "+entry.getValue()));
+
+
 
         //Create a map of joining year to list of people who joined in this year.
         System.out.println("\nMap of people by joining year : ");
